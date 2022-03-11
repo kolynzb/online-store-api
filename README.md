@@ -1,10 +1,10 @@
 # **Native Kampala API**
 
-This is an online store API(_Application Programming Interface_) with various features built and developed with NODEJS ,Express and MongoDB.Inorder to make the project files read through the [configuration instructions](#configuration-instructions).
+This is an online store API(_Application Programming Interface_) with various features built and developed with NODEJS ,Express and MongoDB. Inorder to run the project files in your environment read through the [configuration instructions](#configuration-instructions).
 
 ## Configuration Instructions
 
-### .env File (Environment Variables)
+1. ### .env File (Environment Variables)
 
 _These variables should be included in a .env file at the root of the project for the project to work in your environment_
 
