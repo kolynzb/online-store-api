@@ -6,7 +6,7 @@ const userRoute = require('./routes/user.routes');
 const globalErrorHandler = require('./middleware/errorHandler.middleware');
 
 //api routes
-app.use('/users', userRoute);
+app.use('/api/v1/user', userRoute);
 
 //global error handling
 app.all('*', globalErrorHandler);
