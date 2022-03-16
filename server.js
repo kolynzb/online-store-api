@@ -9,4 +9,21 @@ const startServer = async () => {
   return app.listen(PORT, () => console.log(`listening on port: ${PORT}`));
 };
 
-startServer();
+const server = startServer();
+
+//for unhandled promise rejections rejections
+process.on('unhandledRejection', (err) => {
+  console.log(err.name, err.message);
+  console.log('Unhandled rejection 💥 shutting down....');
+  server.close(() => {
+    process.exit(1);
+  });
+});
+
+//handling uncaught exceptions
+process.on('uncaughtException', (err) => {
+  console.log(err.name, err.message);
+  console.log('Unhandled rejection 💥 shutting down....');
+
+  process.exit(1);
+});

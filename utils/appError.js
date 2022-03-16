@@ -3,8 +3,10 @@ class AppError extends Error {
     super(message);
 
     this.statusCode = statusCode;
-    this.status = statusCode.startsWith('4') ? 'notFound' : 'error';
+    this.status = statusCode.startsWith('4') ? 'fail' : 'error';
     this.IsOperational = true;
+
+    Error.captureStackTrace(this, this.constructor); // prvent polution of the stack trace
   }
 }
 
