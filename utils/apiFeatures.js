@@ -10,7 +10,7 @@ class APIFeatures {
 
     queryStr = queryStr.replace(/\b(gte|lte|lt|gt)\b/g, (match) => `$${match}`); //searh for gte and replace with $gte
 
-    this.dbQuery.find(queryStr);
+    this.dbQuery.find(JSON.parse(queryStr));
 
     return this;
   }

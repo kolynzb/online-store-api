@@ -1,5 +1,7 @@
 const AppError = require('../utils/appError');
 
+require('dotenv').config();
+
 const { NODE_ENV } = process.env;
 
 //handle invalid db ids
@@ -27,8 +29,8 @@ const handleJWTExpiredError = () =>
 const sendErrDev = (err, res) => {
   res.status(err.statusCode).json({
     status: err.status,
-    error: err,
     message: err.message,
+    error: err,
     stack: err.stack,
   });
 };
@@ -55,7 +57,7 @@ module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
 
   if (NODE_ENV === 'production') {
-    let error = { err };
+    let error = { ...err };
     if (error.name === 'CastError') error = handleCastErrorDB(error);
     if (error.code === 11000) error = handleDuplicateErrorDB(error);
     if (error.name === 'ValidationError')
@@ -63,7 +65,7 @@ module.exports = (err, req, res, next) => {
     if (error.name === 'JsonWebTokenError') error = handleJWTError();
     if (error.name === 'TokenExpiredError') error = handleJWTExpiredError();
 
-    sendErrProd(err, res);
+    sendErrProd(error, res);
   } else if (NODE_ENV === 'development') {
     sendErrDev(err, res);
   }
