@@ -17,19 +17,20 @@ exports.restrictedTo =
     next();
   };
 
-exports.protected = catchAsync(async (req, res, next) => {
+exports.protect = catchAsync(async (req, res, next) => {
   let token;
   //get token
-  if (
+
+  if (req.cookies.jwt) {
+    token = req.cookies.jwt;
+  } else if (
     req.headers.authorization ||
-    req.headers.authorization.startwith('Bearer ')
+    req.headers.authorization.startWith('Bearer ')
   ) {
-    token = req.headers.Authorization.split(' ')[2];
-  } else if (req.cookie.jwt) {
-    token = req.cookie.jwt;
+    token = req.headers.authorization.split(' ')[2];
   }
 
-  if (!token) return next(new AppError('Unauthorized access', 403));
+  if (!token) return next(new AppError('Unauthorized Please Login', 403));
   //verify token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 

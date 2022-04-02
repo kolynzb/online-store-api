@@ -1,5 +1,7 @@
 const express = require('express');
 require('dotenv').config();
+const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
 
 const app = express();
 const userRoute = require('./routes/user.routes');
@@ -7,6 +9,11 @@ const globalErrorHandler = require('./middleware/errorHandler.middleware');
 const AppError = require('./utils/appError');
 
 app.use(express.json());
+app.use(cookieParser());
+
+// Set security HTTP headers
+app.use(helmet());
+
 //api routes
 app.use('/api/v1/user', userRoute);
 
@@ -16,4 +23,5 @@ app.all('*', (req, res, next) => {
 });
 
 app.use(globalErrorHandler);
+
 module.exports = app;

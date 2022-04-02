@@ -7,10 +7,9 @@ class APIFeatures {
   filter() {
     const queryObject = { ...this.queryString };
     let queryStr = JSON.stringify(queryObject);
-
     queryStr = queryStr.replace(/\b(gte|lte|lt|gt)\b/g, (match) => `$${match}`); //searh for gte and replace with $gte
 
-    this.dbQuery.find(JSON.parse(queryStr));
+    this.dbQuery = this.dbQuery.find(JSON.parse(queryStr));
 
     return this;
   }
@@ -35,10 +34,11 @@ class APIFeatures {
   }
 
   paginate() {
-    const page = this.queryString.page || 1;
-    const limit = this.queryString.limit || 1; // number of results
+    const n = 100;
+    const page = this.queryString.page * 1 || 1;
+    const limit = this.queryString.limit * 1 || n; // number of results
     const skip = (page - 1) * limit;
-    this.dbQuery.skip(skip).limit(limit);
+    this.dbQuery = this.dbQuery.skip(skip).limit(limit);
 
     return this;
   }

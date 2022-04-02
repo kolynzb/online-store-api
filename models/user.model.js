@@ -47,7 +47,7 @@ const userSchema = new mongoose.Schema(
       },
     },
     passwordChangedAt: Date,
-    resetExpiresIn: Date,
+    passwordResetTokenExpiresIn: Date,
     passwordResetToken: Number,
     role: {
       type: String,
@@ -62,8 +62,6 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-module.exports = mongoose.model('User', userSchema);
 
 //run presave middleware to encrypt passwords
 userSchema.pre('save', async function (next) {
@@ -110,12 +108,14 @@ userSchema.methods.wasPasswordChanged = function (jwtTimestamp) {
 };
 
 // create password reset token
-userSchema.passwordResetToken.createPasswordResetToken = function () {
+userSchema.createPasswordResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString('hex');
   this.passwordResetToken = crypto
     .createHash('sha256')
     .update(resetToken)
     .digest();
-  this.resetExpiresIn = Date.now() + 10 * 60 * 1000; // expires in 10minutes
+  this.passwordResetTokenExpiresIn = Date.now() + 10 * 60 * 1000; // expires in 10minutes
   return resetToken;
 };
+
+module.exports = mongoose.model('User', userSchema);
