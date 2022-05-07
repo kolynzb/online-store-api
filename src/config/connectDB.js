@@ -1,18 +1,18 @@
-const mongoose = require("mongoose");
-require("dotenv").config();
+const mongoose = require('mongoose');
+require('dotenv').config();
 
 const { NODE_ENV, DB_PROD, DB_LOCAL, DB_TEST, DB_DEV } = process.env;
 
-let DB_URI = "";
+let DB_URI = '';
 
 switch (NODE_ENV) {
-  case "development":
+  case 'development':
     DB_URI = DB_DEV;
     break;
-  case "test":
+  case 'test':
     DB_URI = DB_TEST;
     break;
-  case "development":
+  case 'production':
     DB_URI = DB_PROD;
     break;
   default:
@@ -20,13 +20,13 @@ switch (NODE_ENV) {
     break;
 }
 
-NODE_ENV === "production" ? DB_PROD : DB_LOCAL;
+// NODE_ENV === 'production' ? DB_PROD : DB_LOCAL;
 
 const connectDB = async () => {
   await mongoose
     .connect(DB_URI)
-    .then(() => console.log("Connected successfully"))
-    .catch((err) => console.log("Error connecting", err));
+    .then(() => console.log('Connected successfully'))
+    .catch((err) => console.log('Error connecting', err));
 };
 
 module.exports = connectDB;

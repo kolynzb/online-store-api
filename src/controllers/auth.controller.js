@@ -27,7 +27,7 @@ exports.login = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ email }).select('+password');
 
   if (!user && !(await user.correctPassword(password, user.password)))
-    return next(new AppError('Incorrect Email or Password'), 401);
+    return next(new AppError('Incorrect Email or Password', 401));
 
   createSendToken(user, 201, req, res);
 });
@@ -48,8 +48,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ email });
   if (!user)
     return next(
-      new AppError(`No User exits with email address ${email} 💀`),
-      404
+      new AppError(`No User exits with email address ${email} 💀`, 404)
     );
   //generate the random reset token
   const resetToken = user.createPasswordResetToken();
@@ -73,8 +72,10 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     await user.save({ validateBeforeSave: true });
 
     return next(
-      new AppError('There was an error sending the email. Try again later!'),
-      500
+      new AppError(
+        'There was an error sending the email. Try again later!',
+        500
+      )
     );
   }
 });

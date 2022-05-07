@@ -16,3 +16,6 @@ DB_TEST=mongo-database-uri-for-testing
 NODE_ENV=environment(either production,development, test or local)
 PORT=server-port
 ```
+
+Setting up jest
+ yarn add -D jest supertest

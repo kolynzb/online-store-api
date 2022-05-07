@@ -12,8 +12,8 @@ const catchAsync = require('../utils/catchAsync');
 exports.restrictedTo =
   (...roles) =>
   (req, res, next) => {
-    if (roles.includes(req.user.role))
-      return next(new AppError('Unauthorized Access', 403));
+    if (req.user && !roles.includes(req.user.role))
+      return next(new AppError('Unauthorized Access To Resource', 403));
     next();
   };
 
@@ -41,8 +41,13 @@ exports.protect = catchAsync(async (req, res, next) => {
       new AppError('The user beloging to the token nolonger exists', 401)
     );
 
-  //check if user has recently changed there password after token was issued
-  //add user to request body
+  // check if user has recently changed there password after token was issued
+  if (currentUser.wasPasswordChanged(decoded.iat)) {
+    return next(
+      new AppError('User recently changed password! Please log in again.', 401)
+    );
+  }
+  // add user to request body
   req.user = currentUser;
   next();
 });

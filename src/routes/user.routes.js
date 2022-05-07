@@ -16,7 +16,7 @@ router.use(authMiddleware.protect); // all routes are below are protected
 router.patch('/updateMyPassword', authController.updatePassword);
 router.get('/me', userController.getMe, userController.getUser);
 router.delete('/deleteMe', userController.deleteMe);
-// router.patch('/updateMe', userController);
+router.patch('/updateMe', userController.updateMe);
 
 router.use(authMiddleware.restrictedTo('admin')); // all routes are below restricted to admin
 

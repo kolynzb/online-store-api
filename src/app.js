@@ -4,6 +4,8 @@ const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 
 const app = express();
+const productRoute = require('./routes/product.routes');
+const categoryRoute = require('./routes/category.routes');
 const userRoute = require('./routes/user.routes');
 const globalErrorHandler = require('./middleware/errorHandler.middleware');
 const AppError = require('./utils/appError');
@@ -14,10 +16,12 @@ app.use(cookieParser());
 // Set security HTTP headers
 app.use(helmet());
 
-//api routes
+// API routes
 app.use('/api/v1/user', userRoute);
+app.use('/api/v1/product', productRoute);
+app.use('/api/v1/category', categoryRoute);
 
-//global error handling
+// Global error handling
 app.all('*', (req, res, next) => {
   next(new AppError(`Cant find ${req.originalUrl}`, 404));
 });
