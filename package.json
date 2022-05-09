@@ -22,8 +22,10 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.12.4",
+    "jest": "^28.1.0",
     "ndb": "^1.1.5",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "supertest": "^6.2.3"
   },
   "engines": {
     "node": "^16.13.2"
