@@ -2,8 +2,11 @@ const express = require('express');
 require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
+const swaggerUI = require('swagger-ui-express');
+const yamlJS = require('yamljs');
 
 const app = express();
+const swaggerDocument = yamlJS.load('../swagger.yaml');
 const productRoute = require('./routes/product.routes');
 const categoryRoute = require('./routes/category.routes');
 const userRoute = require('./routes/user.routes');
@@ -17,6 +20,7 @@ app.use(cookieParser());
 app.use(helmet());
 
 // API routes
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use('/api/v1/user', userRoute);
 app.use('/api/v1/product', productRoute);
 app.use('/api/v1/category', categoryRoute);

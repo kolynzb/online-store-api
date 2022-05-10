@@ -19,3 +19,5 @@ PORT=server-port
 
 Setting up jest
  yarn add -D jest supertest
+
+ yarn add mongodb-memory-server -D
