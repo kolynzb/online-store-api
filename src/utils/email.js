@@ -58,7 +58,7 @@ class Email {
       to: this.to,
       subject,
       html,
-      text: htmlToText.fromString(html),
+      text: htmlToText.toString(html),
     };
 
     //create a transport and send email

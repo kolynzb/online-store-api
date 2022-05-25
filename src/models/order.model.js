@@ -1,24 +1,20 @@
 const mongoose = require('mongoose');
 
-const OrderSchema = new mongoose.Schema(
+const orderSchema = new mongoose.Schema(
   {
-    userId: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
-    products: [
-      {
-        productId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Product',
-        },
-        quantity: {
-          type: Number,
-          default: 1,
-        },
-      },
-    ],
+    cart: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Cart',
+    },
+    paid: {
+      type: Boolean,
+      default: true,
+    },
     amount: { type: Number, required: true },
     address: { type: Object, required: true },
     status: { type: String, default: 'pending' },
@@ -26,4 +22,11 @@ const OrderSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Order', OrderSchema);
+orderSchema.pre(/^find/, function (next) {
+  this.populate('user').populate({
+    path: 'tour',
+    select: 'name',
+  });
+  next();
+});
+module.exports = mongoose.model('Order', orderSchema);

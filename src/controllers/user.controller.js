@@ -2,7 +2,7 @@ const User = require('../models/user.model');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const filterObj = require('../utils/filterObj.util');
-const factory = require('../utils/handlerFactory');
+const factory = require('../utils/handlerFactory.util');
 
 exports.createUser = factory.createOne(User);
 exports.getAllUsers = factory.getAll(User);

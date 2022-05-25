@@ -6,10 +6,11 @@ const swaggerUI = require('swagger-ui-express');
 const yamlJS = require('yamljs');
 
 const app = express();
-const swaggerDocument = yamlJS.load('../swagger.yaml');
+const swaggerDocument = yamlJS.load('././swagger.yaml');
 const productRoute = require('./routes/product.routes');
 const categoryRoute = require('./routes/category.routes');
 const userRoute = require('./routes/user.routes');
+const reviewRoute = require('./routes/review.routes');
 const globalErrorHandler = require('./middleware/errorHandler.middleware');
 const AppError = require('./utils/appError');
 
@@ -24,6 +25,7 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use('/api/v1/user', userRoute);
 app.use('/api/v1/product', productRoute);
 app.use('/api/v1/category', categoryRoute);
+app.use('/api/v1/review', reviewRoute);
 
 // Global error handling
 app.all('*', (req, res, next) => {
