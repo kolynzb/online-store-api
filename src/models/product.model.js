@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 // const validator = require('validator');
+const uuid = require('uuid');
 
 const productSchema = new mongoose.Schema(
   {
@@ -12,6 +13,7 @@ const productSchema = new mongoose.Schema(
     slug: {
       type: String,
       unique: true,
+      trim: true,
     },
     description: {
       type: String,
@@ -68,7 +70,7 @@ productSchema.index({ slug: 1 });
 // productSchema.index({ startLocation: '2dsphere' });
 
 productSchema.pre('save', function (next) {
-  this.slug = slugify(this.name, { lower: true });
+  this.slug = `${slugify(this.name, { lower: true })}-${uuid.v4()}`;
   next();
 });
 
