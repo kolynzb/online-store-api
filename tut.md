@@ -11,3 +11,5 @@
   `docker ps`
 - to remove a container
   `docker rm -f `
+
+https://youtu.be/bj9QUMRrUdM
